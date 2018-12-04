@@ -10,5 +10,5 @@ variables:
   imageName: 'your-container-image-name:$(build.buildId)'
 
 steps:
-- script: docker build -f nginx-fpm\0.4\Dockerfile -t $(imageName) .
+- script: docker build -f ./nginx-fpm/0.4/Dockerfile -t $(imageName) .
   displayName: 'docker build'
