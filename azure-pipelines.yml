@@ -7,8 +7,29 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 variables:
-  imageName: 'your-container-image-name:$(build.buildId)'
-
+  nginxBuildDirectory: 'nginx-fpm/0.4/'
+  nginxImageName: 'nginx-fpm:$(build.buildId)'
+  wpBuildDirectory: 'wordpress-alpine-php/0.61/'
+  wordpressImageName: 'wordpress-alpine-php:$(build.buildId)'
+ 
 steps:
-- script: docker build -f ./nginx-fpm/0.4/Dockerfile -t $(imageName) .
-  displayName: 'docker build'
+- task: Docker@1
+  displayName: 'Login to Azure Container Registry'
+  inputs:
+    command: login
+    azureSubscriptionEndpoint: 'Azure CXP FT Internal Subscription JOSCOT (6956ed15-2e18-4b8e-9db7-6a61647dedfb)'
+    azureContainerRegistry: joscot.azurecr.io
+ 
+- task: Docker@1
+  displayName: 'Build nginx image'
+  inputs:
+    imageName: 'jabecreg.azurecr.io/$(nginxImageName)'
+    dockerFile: '$(nginxBuildDirectory)/Dockerfile'
+    useDefaultContext: true
+ 
+- task: Docker@1
+  displayName: 'Push nginx image to Azure Container Registry'
+  inputs:
+    command: 'Push an Image'
+    imageName: 'joscot.azurecr.io/$(nginxImageName)'
+    includeLatestTag: true
