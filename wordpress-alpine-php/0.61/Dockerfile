@@ -1,6 +1,7 @@
 #
 # Dockerfile for WordPress
 #
+# FROM joscot.azurecr.io/nginx-fpm:0.4:latest --verify
 FROM appsvcorg/nginx-fpm:0.4
 MAINTAINER Azure App Service Container Images <appsvc-images@microsoft.com>
 # ========
