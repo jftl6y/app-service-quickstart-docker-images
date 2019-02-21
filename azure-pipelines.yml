@@ -39,6 +39,7 @@ steps:
   inputs:
     imageName: 'joscot.azurecr.io/$(wordpressImageName):$(build.buildId)'
     dockerFile: '$(wpBuildDirectory)/Dockerfile'
+    workingDirectory: $(wpBuildDirectory)
     useDefaultContext: true
     includeLatestTag: true
  
